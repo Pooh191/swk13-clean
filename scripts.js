@@ -2,44 +2,54 @@ document.addEventListener('DOMContentLoaded', (event) => {
     loadDuties();
     checkAndClearOldDuties();
     setInterval(checkAndClearOldDuties, 24 * 60 * 60 * 1000); // ตรวจสอบทุก 24 ชั่วโมง
-});
 
-document.getElementById('dutyForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+    const logSection = document.getElementById('logSection');
+    logSection.style.display = 'none';
 
-    const studentName = document.getElementById('studentName').value;
-    const dutyDate = document.getElementById('dutyDate').value;
-    const dutyDetails = document.getElementById('dutyDetails').value;
-    const dutyImage = document.getElementById('dutyImage').files[0];
+    const dutyForm = document.getElementById('dutyForm');
+    const adminLoginForm = document.getElementById('adminLoginForm');
+    const adminLoginSection = document.getElementById('adminLoginSection');
+    const adminCredentials = { username: 'admin', password: 'admin' }; // Example credentials
 
-    if (dutyImage) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const imageDataUrl = e.target.result;
-            const duty = {
-                studentName: studentName,
-                dutyDate: dutyDate,
-                dutyDetails: dutyDetails,
-                dutyImage: imageDataUrl,
-                timestamp: new Date().getTime()
-            };
-            saveDuty(duty);
-            addDutyToLog(duty);
-        };
-        reader.readAsDataURL(dutyImage);
-    } else {
+    // Handle admin login form submission
+    adminLoginForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const username = document.getElementById('adminUsername').value;
+        const password = document.getElementById('adminPassword').value;
+
+        if (username === adminCredentials.username && password === adminCredentials.password) {
+            adminLoginSection.style.display = 'none';
+            logSection.style.display = 'block';
+        } else {
+            alert('Invalid credentials');
+        }
+    });
+
+    // Handle duty form submission
+    dutyForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const reporterName = document.getElementById('reporterName').value;
+        const studentName = document.getElementById('studentName').value;
+        const dutyDate = document.getElementById('dutyDate').value;
+        const dutyDetails = document.getElementById('dutyDetails').value;
+        const dutyImage = document.getElementById('dutyImage').files[0];
+
         const duty = {
+            reporterName: reporterName,
             studentName: studentName,
             dutyDate: dutyDate,
             dutyDetails: dutyDetails,
-            dutyImage: null,
+            dutyImage: dutyImage ? URL.createObjectURL(dutyImage) : null,
             timestamp: new Date().getTime()
         };
+        
         saveDuty(duty);
         addDutyToLog(duty);
-    }
 
-    document.getElementById('dutyForm').reset();
+        dutyForm.reset();
+    });
 });
 
 function saveDuty(duty) {
@@ -58,6 +68,7 @@ function loadDuties() {
 function addDutyToLog(duty) {
     const logEntry = document.createElement('li');
     logEntry.innerHTML = `
+        <strong>ชื่อผู้รายงาน:</strong> ${duty.reporterName}<br>
         <strong>ชื่อนักเรียน:</strong> ${duty.studentName}<br>
         <strong>วันที่:</strong> ${duty.dutyDate}<br>
         <strong>รายละเอียดงาน:</strong> ${duty.dutyDetails}
