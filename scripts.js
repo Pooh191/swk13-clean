@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     // Handle duty form submission
-    dutyForm.addEventListener('submit', function(event) {
+    dutyForm.addEventListener('submit', function(event) {   
         event.preventDefault();
 
         const reporterName = document.getElementById('reporterName').value;
