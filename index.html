@@ -14,6 +14,10 @@
     <main>
         <form id="dutyForm">
             <div class="form-group">
+                <label for="reporterName">ชื่อผู้รายงาน:</label>
+                <input type="text" id="reporterName" name="reporterName" required>
+            </div>
+            <div class="form-group">
                 <label for="studentName">วันที่ทำเวร: เช่น วันศุกร์</label>
                 <input type="text" id="studentName" name="studentName" required>
             </div>
@@ -22,12 +26,15 @@
                 <input type="date" id="dutyDate" name="dutyDate" required>
             </div>
             <div class="form-group">
-                <label for="dutyDetails">รายละเอียดงาน:</label>
+                <label for="dutyDetails">รายละเอียดงาน เช่น 
+                A กวาดพื้น <br> 
+                B ทิ้งขยะ
+                </label>
                 <textarea id="dutyDetails" name="dutyDetails" rows="4" required></textarea>
-            </div>
+            </div>            
             <div class="form-group">
                 <label for="dutyImage">รูปภาพ:</label>
-                <input type="file" id="dutyImage" name="dutyImage" accept="image/*">
+                <input type="file" id="dutyImage" name="dutyImage" accept="image/*" required>
             </div>
             <button type="submit">บันทึก</button>
         </form>
@@ -35,6 +42,22 @@
         <section id="logSection">
             <h2>รายการบันทึกเวร</h2>
             <ul id="dutyLog"></ul>
+        </section>
+
+        <!-- Admin Login Section -->
+        <section id="adminLoginSection">
+            <h2><center>Admin Login</center></h2>
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label for="adminUsername">Username:</label>
+                    <input type="text" id="adminUsername" name="adminUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Password:</label>
+                    <input type="password" id="adminPassword" name="adminPassword" required>
+                </div>
+                <button type="submit">Login</button>
+            </form>
         </section>
     </main>
     <script src="scripts.js"></script>
