@@ -69,7 +69,7 @@ function addDutyToLog(duty) {
     const logEntry = document.createElement('li');
     logEntry.innerHTML = `
         <strong>ชื่อผู้รายงาน:</strong> ${duty.reporterName}<br>
-        <strong>ชื่อนักเรียน:</strong> ${duty.studentName}<br>
+        <strong>วันที่ทำ:</strong> ${duty.studentName}<br>
         <strong>วันที่:</strong> ${duty.dutyDate}<br>
         <strong>รายละเอียดงาน:</strong> ${duty.dutyDetails}
     `;
@@ -95,4 +95,34 @@ function checkAndClearOldDuties() {
     duties.forEach(duty => {
         addDutyToLog(duty);
     });
+}
+
+function addDutyToLog(duty) {
+    const logEntry = document.createElement('li');
+    logEntry.innerHTML = `
+        <strong>ชื่อผู้รายงาน:</strong> ${duty.reporterName}<br>
+        <strong>วันที่ทำ:</strong> ${duty.studentName}<br>
+        <strong>วันที่:</strong> ${duty.dutyDate}<br>
+        <strong>รายละเอียดงาน:</strong> ${duty.dutyDetails}<br>
+    `;
+    
+    if (duty.dutyImage) {
+        const img = document.createElement('img');
+        img.src = duty.dutyImage;
+        img.alt = 'Duty Image';
+        img.style.maxWidth = '200px';
+        
+        // Create a link for downloading the image
+        const downloadLink = document.createElement('a');
+        downloadLink.href = duty.dutyImage;
+        downloadLink.download = `${duty.timestamp}.jpg`; // Set the default file name
+        downloadLink.textContent = 'ดาวน์โหลดรูปภาพ';
+        downloadLink.style.display = 'block'; // Make sure the link is on its own line
+
+        // Append the image and download link to the log entry
+        logEntry.appendChild(img);
+        logEntry.appendChild(downloadLink);
+    }
+    
+    document.getElementById('dutyLog').appendChild(logEntry);
 }
